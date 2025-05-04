@@ -11,7 +11,6 @@ export default function ProjectCard({ titulo, video, ComponentePrototipo, codePa
       <h2 className="text-2xl font-bold mb-6 text-center text-sky-600">{titulo}</h2>
 
       <div className="flex flex-col md:flex-row gap-6">
-        {/* VIDEO */}
         <div className="md:w-6/12 w-full">
         <video
           autoPlay
@@ -32,9 +31,7 @@ export default function ProjectCard({ titulo, video, ComponentePrototipo, codePa
 
         </div>
 
-        {/* INTERACCIÓN */}
         <div className="md:w-7/12 w-full flex flex-col gap-4">
-          {/* Botones */}
           <div className="flex flex-col sm:flex-row gap-4">
             <button
               onClick={() => {
@@ -66,7 +63,6 @@ export default function ProjectCard({ titulo, video, ComponentePrototipo, codePa
             </button>
           </div>
 
-          {/* Contenido dinámico */}
           {vistaActiva === 'codigo' && codePackage && (
             <div className="mt-4">
               <TabbedCodeBlock files={codePackage.files} />

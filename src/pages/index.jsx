@@ -31,9 +31,13 @@ export default function Home() {
       <DynamicBackground />
       <Navbar />
 
-      <div className="flex pt-20">
-        <SectionList proyectos={proyectos} />
-        <main className="ml-52 p-8 space-y-16 w-full" id="portafolio">
+      <div className="pt-20 lg:flex">
+  <div className="hidden lg:block">
+    <SectionList proyectos={proyectos} />
+  </div>
+
+  <main className="p-4 lg:p-8 lg:ml-52 space-y-16 w-full" id="portafolio">
+
           <div className="mb-10 text-center lg:text-left lg:ml-8">
             <h1 className="text-3xl font-bold text-blue-500">
               Explora Proyectos con IA e Intégralos Tú Mismo

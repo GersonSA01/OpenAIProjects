@@ -1,18 +1,16 @@
 import { useEffect, useRef, useState } from "react";
-import { FiCopy, FiCheck  } from "react-icons/fi";
+import { FiCopy, FiCheck } from "react-icons/fi";
 import hljs from "highlight.js";
 import "highlight.js/styles/github-dark.css";
 import { FaHtml5, FaCss3Alt, FaJs, FaBrain, FaFile } from "react-icons/fa";
 
-import Sidebar from "./Sidebar"; // Asegúrate de tenerlo en el mismo directorio o ajusta el path
+import Sidebar from "./Sidebar";
+
 const generateFileStructure = (files) => {
   const structure = {};
-
   Object.keys(files).forEach((filePath) => {
     const parts = filePath.split("/");
-
     let current = structure;
-
     parts.forEach((part, i) => {
       if (!current[part]) {
         current[part] = i === parts.length - 1 ? null : {};
@@ -36,7 +34,6 @@ const generateFileStructure = (files) => {
   return toArray(structure);
 };
 
-
 const getFileMetadata = (key = "") => {
   if (key.endsWith(".html")) return { icon: <FaHtml5 />, lang: "html" };
   if (key.endsWith(".css")) return { icon: <FaCss3Alt />, lang: "css" };
@@ -52,9 +49,9 @@ const getFileMetadata = (key = "") => {
 export default function TabbedCodeBlock({ files }) {
   const [activeTab, setActiveTab] = useState(Object.keys(files)[0]);
   const [copied, setCopied] = useState(false);
+  const [view, setView] = useState("sidebar"); // "sidebar" o "code"
   const codeRef = useRef(null);
 
-  // Proteger en caso de que se seleccione un archivo no presente
   const safeActiveTab = files[activeTab] ? activeTab : Object.keys(files)[0];
   const { lang } = getFileMetadata(safeActiveTab);
 
@@ -71,45 +68,63 @@ export default function TabbedCodeBlock({ files }) {
   }, [safeActiveTab]);
 
   return (
-    <div className="flex w-full border rounded bg-[#0f172a] text-white shadow-lg overflow-hidden h-[330px]">
-      {/* Sidebar tipo árbol personalizado */}
-      <div className="w-44 h-[330px] border-r border-gray-700 bg-gray-900 overflow-y-auto">
-      <Sidebar
-  onSelectFile={(file) => setActiveTab(file)}
-  fileStructure={generateFileStructure(files)}
-/>
-
-      </div>
-
-      {/* Panel de código */}
-      <div className="flex-1 relative">
-        <button
-          onClick={copyToClipboard}
-          className="absolute top-3 right-4 px-3 py-1 bg-gray-800 text-sm rounded hover:text-green-300 z-10"
-        >
-{copied ? (
-  <>
-    <FiCheck className="inline mr-1 text-green-400" />
-    Copiado
-  </>
-) : (
-  <>
-    <FiCopy className="inline mr-1" />
-    Copiar
-  </>
-)}
-        </button>
-
-        <pre className="p-4 h-[330px] w-[450px] overflow-auto text-sm bg-black scroll-hover">
-          <code
-            ref={codeRef}
-            className={`language-${lang}`}
-            dangerouslySetInnerHTML={{
-              __html: hljs.highlightAuto(files[safeActiveTab], [lang]).value,
+    <div className="w-full border rounded bg-[#0f172a] text-white shadow-lg overflow-hidden h-[330px] relative">
+      <div
+        className={`absolute inset-0 transition-all duration-500 ease-in-out transform ${
+          view === "sidebar" ? "translate-x-0 opacity-100 z-10" : "-translate-x-full opacity-0 z-0"
+        }`}
+      >
+        <div className="w-full h-full overflow-y-auto bg-gray-900 border-r border-gray-700">
+          <Sidebar
+            onSelectFile={(file) => {
+              setActiveTab(file);
+              setView("code");
             }}
+            fileStructure={generateFileStructure(files)}
           />
-        </pre>
+        </div>
+      </div>
+  
+      <div
+        className={`absolute inset-0 transition-all duration-500 ease-in-out transform ${
+          view === "code" ? "translate-x-0 opacity-100 z-10" : "translate-x-full opacity-0 z-0"
+        }`}
+      >
+        <div className="relative h-full w-full">
+          <button
+            onClick={() => setView("sidebar")}
+            className="absolute top-3 left-4 px-3 py-1 bg-gray-800 text-sm rounded hover:text-blue-400 z-10"
+          >
+            ⬅ Volver
+          </button>
+          <button
+            onClick={copyToClipboard}
+            className="absolute top-3 right-4 px-3 py-1 bg-gray-800 text-sm rounded hover:text-green-300 z-10"
+          >
+            {copied ? (
+              <>
+                <FiCheck className="inline mr-1 text-green-400" />
+                Copiado
+              </>
+            ) : (
+              <>
+                <FiCopy className="inline mr-1" />
+                Copiar
+              </>
+            )}
+          </button>
+          <pre className="p-4 h-full w-full overflow-auto text-sm bg-black scroll-hover">
+            <code
+              ref={codeRef}
+              className={`language-${lang}`}
+              dangerouslySetInnerHTML={{
+                __html: hljs.highlightAuto(files[safeActiveTab], [lang]).value,
+              }}
+            />
+          </pre>
+        </div>
       </div>
     </div>
   );
+  
 }

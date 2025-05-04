@@ -88,12 +88,10 @@ export default function ExcelChatbot({ apiKey, excelData, rawData, columnNames }
 
   return (
     <div className="p-4 mt-6 border border-gray-300 rounded bg-white shadow">
-      {/* Columnas disponibles */}
       <div className="mb-2 text-sm text-gray-600">
         <strong>Atributos disponibles:</strong> {columnNames.join(', ')}
       </div>
 
-      {/* Entrada del usuario */}
       <div className="flex gap-2 mb-3">
         <input
           value={input}
@@ -111,26 +109,23 @@ export default function ExcelChatbot({ apiKey, excelData, rawData, columnNames }
         </button>
       </div>
 
-      {/* Mensaje de error o SQL generada */}
       {error && <p className="text-red-600 text-sm mb-2">{error}</p>}
       {query && <p className="text-sm text-gray-500 mb-2 italic">Consulta generada: {query}</p>}
 
       {query && results.length === 0 && !error && (
   <p className="text-yellow-600 text-sm mt-2 bg-yellow-50 p-3 border border-yellow-200 rounded">
-    ⚠️ La consulta no devolvió resultados. Verifica si los datos existen o si hay diferencias en mayúsculas.
+     La consulta no devolvió resultados. Verifica si los datos existen o si hay diferencias en mayúsculas.
   </p>
 )}
 
 {results.length > 0 && (
   <div className="mt-4">
-    {/* Si la respuesta tiene solo un valor agregado como AVG, SUM, COUNT */}
     {results.length === 1 && Object.keys(results[0]).length === 1 ? (
       <div className="p-6 bg-green-50 border border-green-200 rounded-lg text-center shadow">
         <p className="text-sm text-gray-600 mb-2 font-medium flex items-center justify-center gap-2">
           <span className="text-green-700">Resultado:</span>
         </p>
 
-        {/* Mostrar el valor del campo (formateado) */}
         <p className="text-3xl font-bold text-green-700 tracking-widest">
           {(() => {
             const valor = Object.entries(results[0])[0][1];
@@ -140,7 +135,6 @@ export default function ExcelChatbot({ apiKey, excelData, rawData, columnNames }
           })()}
         </p>
 
-        {/* Nombre del campo */}
         <p className="text-xs text-gray-500 mt-1 italic">
         </p>
       </div>

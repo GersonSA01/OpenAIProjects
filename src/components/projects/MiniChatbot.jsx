@@ -51,7 +51,6 @@ export default function MiniChatbot({ apiKey }) {
 
   return (
 <div className="p-4 border border-gray-300 rounded bg-white">
-  {/* Mensajes */}
   <div className="h-48 overflow-y-auto border border-gray-200 p-2 mb-2 bg-gray-50">
     {messages.map((msg, i) => (
       <div
@@ -71,14 +70,12 @@ export default function MiniChatbot({ apiKey }) {
     ))}
   </div>
 
-  {/* Error */}
   {error && (
     <div className="text-red-600 text-sm mb-2 bg-red-100 p-2 rounded border border-red-300">
       {error}
     </div>
   )}
 
-  {/* Input + botón */}
   <div className="flex gap-2">
     <input
       value={input}

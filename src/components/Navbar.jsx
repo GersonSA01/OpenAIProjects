@@ -8,7 +8,6 @@ export default function Navbar() {
           GersonSA
         </a>
 
-        {/* Navegación solo en escritorio */}
         <div className="hidden lg:flex gap-6 items-center">
           <a
             href="#contacto"

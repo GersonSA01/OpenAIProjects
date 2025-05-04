@@ -50,7 +50,6 @@ export default function ExcelChatAssistant({ apiKey }) {
         {statusMessage}
       </div>
 
-      {/* 📁 Input de subida */}
       <input
         type="file"
         accept=".xlsx, .xls"
@@ -58,7 +57,6 @@ export default function ExcelChatAssistant({ apiKey }) {
         className="block w-full text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:bg-blue-100 file:text-blue-700 hover:file:bg-blue-200 cursor-pointer"
       />
 
-      {/* 🤖 Chatbot visible solo cuando hay datos */}
       {excelText && (
         <>
           <p className="mt-4 text-sm text-gray-600 italic">
